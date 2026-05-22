@@ -1,0 +1,17 @@
+services:
+  pc-service:
+    build:
+      context: ./pc_service
+    image: esp32-system-monitor-pc-service:latest
+    container_name: esp32-system-monitor-pc-service
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    command:
+      - python
+      - monitor_service.py
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --allow-manual-targets
