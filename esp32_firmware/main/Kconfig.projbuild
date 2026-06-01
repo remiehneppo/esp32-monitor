@@ -1,0 +1,45 @@
+menu "Display Configuration"
+
+    choice DISPLAY_TYPE
+        prompt "Display type"
+        default DISPLAY_SSD1306
+        help
+            Select which display hardware to use.
+
+        config DISPLAY_SSD1306
+            bool "SSD1306 I2C OLED (128x64 monochrome)"
+            help
+                SSD1306 OLED connected over I2C.
+                Default pins: SDA=41, SCL=42 (xh-S3E-AI board).
+
+        config DISPLAY_ST7789
+            bool "ST7789 SPI LCD (240x320 color)"
+            help
+                ST7789 TFT LCD connected over SPI.
+                Renders 128x64 logical canvas at 2x scale centered on screen.
+                Configure SPI pins below.
+    endchoice
+
+    if DISPLAY_ST7789
+        config ST7789_PIN_CS
+            int "CS GPIO pin"
+            default 45
+
+        config ST7789_PIN_DC
+            int "DC (Data/Command) GPIO pin"
+            default 47
+
+        config ST7789_PIN_RST
+            int "RST GPIO pin (-1 to skip hardware reset)"
+            default 21
+
+        config ST7789_PIN_MOSI
+            int "MOSI (SDA) GPIO pin"
+            default 20
+
+        config ST7789_PIN_SCLK
+            int "SCLK (SCL) GPIO pin"
+            default 19
+    endif
+
+endmenu
